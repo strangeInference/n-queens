@@ -164,8 +164,9 @@
       console.log(minorDiagonalColumnIndexAtFirstRow);
       var count = 0;
       var start = 0;
-      var finish = this.attributes.n - Math.abs(minorDiagonalColumnIndexAtFirstRow);
-      if (minorDiagonalColumnIndexAtFirstRow > this.attributes.n - 1){
+      var finish = this.attributes.n - Math.abs(this.attributes.n - 1 - minorDiagonalColumnIndexAtFirstRow);
+      
+      if (minorDiagonalColumnIndexAtFirstRow >= this.attributes.n){
         start = minorDiagonalColumnIndexAtFirstRow - (this.attributes.n - 1);
         minorDiagonalColumnIndexAtFirstRow = this.attributes.n - 1;
       }
@@ -180,8 +181,8 @@
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
       var result = false;
-      var start = -(this.attributes.n - 1);
-      for (var i = start; i < this.attributes.n; i++){
+      var finish = this.attributes.n * 2 ;
+      for (var i = 0; i < finish; i++){
         result = result || this.hasMinorDiagonalConflictAt(i);
       }
       return result;  // fixme
