@@ -16,26 +16,79 @@
 
 
 window.findNRooksSolution = function(n) {
-  var solution = undefined; //fixme
+  var solution = new Board({n:n}); //fixme
+  for (var i = 0; i < n; i++){
+    for (var j = 0; j < n; j++) {
+      solution.togglePiece(i, j);
+      if (solution.hasAnyRooksConflicts()){
+        solution.togglePiece(i, j);
+      }
+    }
 
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-  return solution;
+  }
+  //var subFunc = function(board){
+
+  
+
+  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution.rows()));
+  return solution.rows();
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solution = undefined; //fixme
+  var solution = n;
+  for(var i = n-1 ; i > 0; i--){
+    solution *= i
+  } //fixme
 
-  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
-  return solutionCount;
+  console.log('Number of solutions for ' + n + ' rooks:', solution);
+  return solution;
 };
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
+  var solution;
 
-  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-  return solution;
+  var copier = function(board){
+    var copy = new Board({n:board.attributes.n});
+    for (var i = 0; i < board.attributes.n; i++){
+      copy.attributes[i] = board.attributes[i].slice();
+    }
+    return copy;
+  };
+  
+  var subFunc = function(board, n){
+    if (n === 0){
+      solution = board.rows();
+    }
+    for (var i = 0; i < board.attributes.n; i++){
+      for (var j = 0; j < board.attributes.n; j++) {
+        if (board.get(i)[j] === 0){
+          var newBoard = copier(board);
+          newBoard.togglePiece(i, j);
+          if (!newBoard.hasAnyQueensConflicts() && n > 0){
+            subFunc(newBoard, n - 1);
+          } //else if (n === 0 && )
+        }
+      }
+    }        
+      
+  };
+  //subFunc(new Board({n:n}), n)
+  
+  // subFunc takes a board
+    // if board has conflicts then do nothing
+    // for each possible queen placement
+      // creat a new board 
+      // if n does not equal 0
+        // pass the new board, and n - 1 to subFunc
+
+  //var first = subFunc(solution, n);
+  
+
+  console.log('Single solution for ' + n + ' queen:', JSON.stringify(solution));
+  
+  //return solution;
 };
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
