@@ -88,7 +88,7 @@ window.findNQueensSolution = function(n) {
 
   console.log('Single solution for ' + n + ' queen:', JSON.stringify(solution));
   
-  //return solution;
+  return solution;
 };
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
