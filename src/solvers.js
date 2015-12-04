@@ -57,19 +57,23 @@ window.findNQueensSolution = function(n) {
   var solution = new Board({n:n}).rows();
   var finished = false;
   
-  var subFunc = function(board, n){
+  var subFunc = function(board, n, row, col){
     if (n === 0){
       solution = board.rows();
       finished = true;
     } else {
+
+      if(row >= board.attributes.n){
+        return;
+      }
       if(!finished){
-        for (var i = 0; i < board.attributes.n; i++){
-          for (var j = 0; j < board.attributes.n; j++) {
+        for (var i = row; i < board.attributes.n; i++){
+          for (var j = col; j < board.attributes.n; j++) {
             if (board.get(i)[j] === 0){
               var newBoard = copier(board);
               newBoard.togglePiece(i, j);
               if (!newBoard.hasAnyQueenConflictsOn(i,j)){
-                subFunc(newBoard, n - 1);
+                subFunc(newBoard, n - 1, row++,0);
               } //else if (n === 0 && )
             }
           }
@@ -78,7 +82,7 @@ window.findNQueensSolution = function(n) {
     }       
       
   };
-  subFunc(new Board({n:n}), n);
+  subFunc(new Board({n:n}), n, 0, 0);
   
   // subFunc takes a board
     // if board has conflicts then do nothing
